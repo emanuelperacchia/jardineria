@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:jardineria}
+    username: ${DB_USER:jardineria}
+    password: ${DB_PASSWORD:jardineria}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  mail:
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:1025}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+
+jardineria:
+  app:
+    jwt-secret: ${JWT_SECRET:dev-secret-key-docker-at-least-256-bits-long-for-testing}
+    jwt-expiration-ms: 86400000
+  upload:
+    cloudinary-cloud-name: ${CLOUDINARY_CLOUD_NAME:tu-cloud-name}
+    cloudinary-api-key: ${CLOUDINARY_API_KEY:tu-api-key}
+    cloudinary-api-secret: ${CLOUDINARY_API_SECRET:tu-api-secret}
+    cloudinary-folder: jardineria
+  contact:
+    email-to: ${CONTACT_EMAIL_TO:admin@jardineria.com}
+    email-from: ${CONTACT_EMAIL_FROM:no-reply@jardineria.com}

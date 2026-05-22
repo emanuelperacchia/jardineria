@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+  mail:
+    host: localhost
+    port: 1025
+    username:
+    password:
+
+jardineria:
+  app:
+    jwt-secret: test-secret-key-that-is-at-least-256-bits-long-for-testing-purposes
+    jwt-expiration-ms: 86400000
+  upload:
+    cloudinary-cloud-name: test
+    cloudinary-api-key: test
+    cloudinary-api-secret: test
+    cloudinary-folder: test
+  contact:
+    email-to: test@test.com
+    email-from: test@test.com
