@@ -1,5 +1,8 @@
 # Jardinería — Emanuel Peracchia
 
+![CI](https://github.com/emanuelperacchia/jardineria/actions/workflows/ci.yml/badge.svg)
+![CD](https://github.com/emanuelperacchia/jardineria/actions/workflows/cd.yml/badge.svg)
+
 Sitio web profesional para servicio de jardinería con panel de administración.
 
 ## Stack
@@ -63,6 +66,25 @@ Todas las rutas públicas (GET) no requieren autenticación. Las rutas de admin 
 - **Backend**: Railway (perfil `prod` usa PostgreSQL)
 - **Frontend**: Vercel
 - **Imágenes**: Cloudinary
+- **CI/CD**: GitHub Actions (tests + deploy automático)
+
+## GitHub Actions
+
+Este repositorio utiliza dos workflows:
+
+1. **CI** (`.github/workflows/ci.yml`):
+   - Ejecuta en cada PR y push a `main`
+   - Corre tests del backend (`mvn test`)
+   - Build del frontend (`pnpm install && pnpm build`)
+   - **No requiere secrets**
+
+2. **CD** (`.github/workflows/cd.yml`):
+   - Ejecuta en push a `main` (solo si CI pasa)
+   - Deploya backend a Railway vía `railway up`
+   - Deploya frontend a Vercel
+   - **Requiere secrets configurados**:
+     - `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
+     - `RAILWAY_TOKEN`, `RAILWAY_SERVICE_ID`
 
 ## Contacto
 
