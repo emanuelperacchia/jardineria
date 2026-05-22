@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply text-gray-800 antialiased;
+  }
+}
+
+@layer components {
+  .grass-divider {
+    height: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 24' preserveAspectRatio='none'%3E%3Cpath d='M0,24 L0,8 Q30,0 60,8 Q90,16 120,8 Q150,0 180,8 Q210,16 240,8 Q270,0 300,8 Q330,16 360,8 Q390,0 420,8 Q450,16 480,8 Q510,0 540,8 Q570,16 600,8 Q630,0 660,8 Q690,16 720,8 Q750,0 780,8 Q810,16 840,8 Q870,0 900,8 Q930,16 960,8 Q990,0 1020,8 Q1050,16 1080,8 Q1110,0 1140,8 Q1170,16 1200,8 L1200,24 Z' fill='%232DE330'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-size: 1200px 24px;
+    opacity: 0.15;
+  }
+}

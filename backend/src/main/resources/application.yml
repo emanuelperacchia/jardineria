@@ -1,0 +1,74 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:h2:mem:jardineria
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  mail:
+    host: localhost
+    port: 1025
+    username:
+    password:
+
+jardineria:
+  app:
+    jwt-secret: dev-secret-key-change-in-production-at-least-256-bits-long
+    jwt-expiration-ms: 86400000
+  upload:
+    cloudinary-cloud-name: tu-cloud-name
+    cloudinary-api-key: tu-api-key
+    cloudinary-api-secret: tu-api-secret
+    cloudinary-folder: jardineria
+  contact:
+    email-to: tu-email@ejemplo.com
+    email-from: no-reply@jardineria.com
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: ${JDBC_DATABASE_URL}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+
+jardineria:
+  app:
+    jwt-secret: ${JWT_SECRET}
+    jwt-expiration-ms: 86400000
+  upload:
+    cloudinary-cloud-name: ${CLOUDINARY_CLOUD_NAME}
+    cloudinary-api-key: ${CLOUDINARY_API_KEY}
+    cloudinary-api-secret: ${CLOUDINARY_API_SECRET}
+    cloudinary-folder: jardineria
+  contact:
+    email-to: ${CONTACT_EMAIL_TO}
+    email-from: ${CONTACT_EMAIL_FROM}

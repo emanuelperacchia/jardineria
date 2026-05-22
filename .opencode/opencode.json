@@ -1,0 +1,50 @@
+{
+  "skills": [
+    {
+      "name": "ui-ux-pro-max",
+      "description": "Diseño UI/UX profesional con 67 estilos, paletas de color, tipografía y 161 reglas de razonamiento para construir interfaces profesionales. Auto-activa al detectar trabajo de UI/UX, diseño de componentes, páginas o estilos.",
+      "match": {
+        "patterns": [
+          "diseñ",
+          "ui",
+          "ux",
+          "componente",
+          "pagina",
+          "estilo",
+          "css",
+          "tailwind",
+          "layout",
+          "responsive",
+          "galeria",
+          "formulario",
+          "header",
+          "footer",
+          "sidebar",
+          "admin panel",
+          "dashboard",
+          "card",
+          "button",
+          "modal",
+          "lightbox",
+          "masonry",
+          "grid",
+          "tipografia",
+          "color",
+          "paleta",
+          "tema",
+          "theme",
+          "design",
+          "landing",
+          "hero",
+          "navigation",
+          "nav",
+          "menu",
+          "contact form",
+          "whatsapp",
+          "brand",
+          "marca"
+        ]
+      }
+    }
+  ]
+}
