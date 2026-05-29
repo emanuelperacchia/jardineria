@@ -2,15 +2,15 @@ services:
   db:
     image: postgres:16-alpine
     environment:
-      POSTGRES_DB: jardineria
-      POSTGRES_USER: jardineria
-      POSTGRES_PASSWORD: jardineria
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U jardineria"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
       interval: 5s
       timeout: 3s
       retries: 5
@@ -23,9 +23,9 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       DB_HOST: db
       DB_PORT: 5432
-      DB_NAME: jardineria
-      DB_USER: jardineria
-      DB_PASSWORD: jardineria
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
     depends_on:
       db:
         condition: service_healthy

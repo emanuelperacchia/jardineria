@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import { getPostBySlug } from '../api/posts'
 import SEO from '../components/SEO'
+import DOMPurify from 'dompurify'
 import type { Post } from '../types'
 
 export default function BlogPost() {
@@ -61,11 +62,10 @@ export default function BlogPost() {
 
         <h1 className="mb-8 text-3xl font-bold leading-tight text-gray-900 md:text-4xl">{post.title}</h1>
 
-        <div className="prose prose-lg max-w-none text-gray-700">
-          {post.content.split('\n').map((line, i) => (
-            <p key={i}>{line}</p>
-          ))}
-        </div>
+        <div 
+          className="prose prose-lg max-w-none text-gray-700" 
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }} 
+        />
       </div>
     </article>
   )

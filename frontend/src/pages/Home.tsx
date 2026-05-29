@@ -12,6 +12,66 @@ const servicesData = [
   { title: 'Limpieza de canteros', desc: 'Remoción de malezas, acondicionamiento de tierra y preparación de canteros para nuevas plantas.', Icon: Sparkles },
 ]
 
+interface GrassBladeProps {
+  height: number
+  width: number
+  delay: number
+  duration: number
+  color: string
+  opacity: number
+  initialRotation: number
+  pathD: string
+  leftPosition: number
+}
+
+function GrassBlade({
+  height,
+  width,
+  delay,
+  duration,
+  color,
+  opacity,
+  initialRotation,
+  pathD,
+  leftPosition,
+}: GrassBladeProps) {
+  const [isCut, setIsCut] = useState(false)
+
+  useEffect(() => {
+    if (isCut) {
+      const timer = setTimeout(() => {
+        setIsCut(false)
+      }, 10000) // Vuelve a crecer automáticamente después de 10 segundos
+      return () => clearTimeout(timer)
+    }
+  }, [isCut])
+
+  return (
+    <svg
+      className={`grass-blade absolute bottom-0 transition-all duration-700 ${isCut ? 'pointer-events-none' : 'pointer-events-auto'}`}
+      onMouseEnter={() => setIsCut(true)}
+      style={{
+        left: `${leftPosition}%`,
+        height: `${height}px`,
+        width: `${width}px`,
+        fill: isCut ? '#558B2F' : color, // Tono verde oliva seco al cortarse
+        opacity: isCut ? 0.6 : opacity,
+        transformOrigin: 'bottom center',
+        '--rot': `${initialRotation}deg`,
+        '--duration': `${duration}s`,
+        '--delay': `${delay}s`,
+        transform: isCut
+          ? `scaleY(0.25) scaleX(0.85) rotate(${initialRotation * 0.3}deg)`
+          : undefined,
+      } as React.CSSProperties}
+      viewBox="0 0 20 100"
+      preserveAspectRatio="none"
+    >
+      <path d={pathD} />
+    </svg>
+  )
+}
+
 export default function Home() {
   const [images, setImages] = useState<GalleryImage[]>([])
   const [posts, setPosts] = useState<Post[]>([])
@@ -56,6 +116,71 @@ export default function Home() {
               Ver trabajos realizados
             </Link>
           </div>
+        </div>
+
+        {/* Grass Animation Footer */}
+        <div className="grass-container group/grass absolute bottom-0 left-0 right-0 h-20 overflow-hidden pointer-events-auto z-20 select-none">
+          {Array.from({ length: 240 }).map((_, i) => {
+            const height = 40 + (i % 8) * 6; // Alturas variadas de 40px a 88px
+            const width = 14 + (i % 5) * 4; // Anchos variados de 14px a 34px
+            const delay = (i % 24) * 0.15; // Delay desfasado más fluido
+            const duration = 2.2 + (i % 8) * 0.4; // Duración de balanceo desfasado
+            
+            // Paleta de verdes orgánicos enriquecidos
+            const colors = [
+              '#09260A', // Bosque ultra oscuro
+              '#134D16', // Verde pino clásico
+              '#1B7A21', // Esmeralda medio
+              '#28B830', // Jade luminoso
+              '#55D460'  // Brote de primavera
+            ];
+            const color = colors[i % colors.length];
+            const opacity = 0.75 + (i % 4) * 0.08;
+            const initialRotation = (i % 2 === 0 ? 1 : -1) * (i % 9);
+
+            // 4 formas de hojas para máxima naturalidad
+            const pathType = i % 4;
+            let pathD = "M5,100 C7,60 8,30 10,0 C12,30 13,60 15,100 Z";
+            if (pathType === 1) {
+              pathD = "M15,100 C10,60 5,30 0,0 C8,35 12,70 15,100 Z";
+            } else if (pathType === 2) {
+              pathD = "M5,100 C10,60 15,30 20,0 C12,35 8,70 5,100 Z";
+            } else if (pathType === 3) {
+              pathD = "M3,100 C6,55 9,25 10,0 C11,25 14,55 17,100 Z";
+            }
+
+            // Distribución horizontal uniforme
+            const leftPosition = (i * 0.418) + (i % 4) * 0.1; 
+
+            // Para crear un efecto ola (wave) dinámico 100% puro en CSS súper performante:
+            // Definimos la variable de CSS --wave-delay calculando la distancia relativa a cada hoja.
+            // Mediante transiciones de CSS usando selectores hermanos o retrasos desfasados,
+            // podemos hacer que al hacer hover en una hoja, las de al lado reaccionen consecutivamente.
+            // Para lograr la ola con CSS ultra-rápido sin saturar el re-renderizado de React,
+            // agregamos una variable '--idx' con el índice de la hoja para que el hover en el contenedor
+            // o el hover individual afecte con un retraso correspondiente a las hojas vecinas.
+            return (
+              <svg
+                key={i}
+                className="grass-blade absolute bottom-0"
+                style={{
+                  left: `${leftPosition}%`,
+                  height: `${height}px`,
+                  width: `${width}px`,
+                  fill: color,
+                  opacity: opacity,
+                  '--rot': `${initialRotation}deg`,
+                  '--duration': `${duration}s`,
+                  '--delay': `${delay}s`,
+                  '--idx': i, // Índice de la brizna para el motor de olas en CSS
+                } as React.CSSProperties}
+                viewBox="0 0 20 100"
+                preserveAspectRatio="none"
+              >
+                <path d={pathD} />
+              </svg>
+            );
+          })}
         </div>
       </section>
 

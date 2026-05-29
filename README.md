@@ -41,7 +41,7 @@ pnpm dev
 
 | Ruta | Descripción |
 |------|-------------|
-| `/admin/login` | Login (`admin` / `admin123`) |
+| `/admin/login` | Login (Usuario: `admin` / Contraseña: Generada dinámicamente en consola al iniciar o configurable vía variable de entorno) |
 | `/admin` | Dashboard |
 | `/admin/categorias` | ABM categorías |
 | `/admin/posts` | ABM artículos |
@@ -50,7 +50,7 @@ pnpm dev
 
 ## API
 
-Todas las rutas públicas (GET) no requieren autenticación. Las rutas de admin requieren token JWT.
+Todas las rutas públicas (GET y POST de contacto) no requieren autenticación. Las rutas de admin requieren token JWT con rol `ROLE_ADMIN`.
 
 | Método | Ruta | Auth |
 |--------|------|------|
@@ -59,7 +59,9 @@ Todas las rutas públicas (GET) no requieren autenticación. Las rutas de admin 
 | GET | `/api/posts/public` | No |
 | GET | `/api/images` | No |
 | POST | `/api/contact` | No |
-| PUT/POST/DELETE | `/api/admin/*` | JWT |
+| GET | `/api/admin/contact` | JWT (Admin) |
+| PUT | `/api/admin/contact/{id}/read` | JWT (Admin) |
+| PUT/POST/DELETE | `/api/admin/*` | JWT (Admin) |
 
 ## Despliegue
 

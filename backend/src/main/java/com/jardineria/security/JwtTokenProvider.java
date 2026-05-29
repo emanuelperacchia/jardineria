@@ -17,7 +17,13 @@ public class JwtTokenProvider {
 
     public JwtTokenProvider(
             @Value("${jardineria.app.jwt-secret}") String jwtSecret,
-            @Value("${jardineria.app.jwt-expiration-ms}") long expirationMs) {
+            @Value("${jardineria.app.jwt-expiration-ms}") long expirationMs,
+            @Value("${spring.profiles.active:dev}") String activeProfile) {
+        
+        if ("prod".equals(activeProfile) && (jwtSecret == null || jwtSecret.startsWith("dev-") || jwtSecret.length() < 32)) {
+            throw new IllegalStateException("FATAL: El JWT Secret es débil, por defecto ('dev-*') o no está configurado en producción. ¡Bloqueado por seguridad!");
+        }
+        
         this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
         this.expirationMs = expirationMs;
     }
@@ -39,6 +45,15 @@ public class JwtTokenProvider {
             .parseSignedClaims(token)
             .getPayload()
             .getSubject();
+    }
+
+    public String getRoleFromToken(String token) {
+        return Jwts.parser()
+            .verifyWith(key)
+            .build()
+            .parseSignedClaims(token)
+            .getPayload()
+            .get("role", String.class);
     }
 
     public boolean validateToken(String token) {

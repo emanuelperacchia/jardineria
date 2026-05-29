@@ -25,10 +25,11 @@ const navLinks = [
 ]
 
 export default function AdminDashboard() {
-  const { isAuth, logout } = useAuth()
+  const { isAuth, role, logout } = useAuth()
   const { pathname } = useLocation()
 
   if (!isAuth) return <Navigate to="/admin/login" replace />
+  if (role !== 'ROLE_ADMIN') return <Navigate to="/" replace />
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-[#E8FBE8] via-white to-[#E8FBE8]/50">

@@ -16,12 +16,12 @@ export default function AdminMessages() {
   useEffect(() => { load() }, [])
 
   const load = async () => {
-    const { data } = await api.get<Message[]>('/contact/admin')
+    const { data } = await api.get<Message[]>('/admin/contact')
     setMessages(data)
   }
 
   const markAsRead = async (id: number) => {
-    await api.put(`/contact/admin/${id}/read`)
+    await api.put(`/admin/contact/${id}/read`)
     await load()
   }
 

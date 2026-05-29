@@ -39,12 +39,30 @@ public class GalleryController {
             .toList();
     }
 
+    private static final java.util.Set<String> ALLOWED_CONTENT_TYPES = java.util.Set.of(
+        "image/jpeg", "image/png", "image/webp", "image/gif"
+    );
+
     @PostMapping("/admin/upload")
     public GalleryImageDTO upload(@RequestParam("file") MultipartFile file,
                                   @RequestParam("title") String title,
                                   @RequestParam(value = "description", required = false) String description,
                                   @RequestParam("categoryId") Long categoryId,
                                   @RequestParam(value = "displayOrder", defaultValue = "0") Integer displayOrder) throws IOException {
+
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("El archivo no puede estar vacío");
+        }
+
+        String contentType = file.getContentType();
+        if (contentType == null || !ALLOWED_CONTENT_TYPES.contains(contentType.toLowerCase())) {
+            throw new IllegalArgumentException("Tipo de archivo no permitido. Solo se aceptan imágenes (JPEG, PNG, WEBP, GIF).");
+        }
+
+        // Límite de 5MB
+        if (file.getSize() > 5 * 1024 * 1024) {
+            throw new IllegalArgumentException("El archivo excede el tamaño máximo permitido de 5MB.");
+        }
 
         Map uploadResult = cloudinaryService.uploadImage(file);
         String imageUrl = (String) uploadResult.get("secure_url");

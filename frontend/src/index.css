@@ -20,3 +20,64 @@
     opacity: 0.15;
   }
 }
+
+@keyframes wind-sway {
+  0%, 100% {
+    transform: rotate(var(--rot, 0deg)) skewX(0deg) scaleY(1);
+  }
+  33% {
+    transform: rotate(calc(var(--rot, 0deg) + 3deg)) skewX(2deg) scaleY(0.98);
+  }
+  66% {
+    transform: rotate(calc(var(--rot, 0deg) - 3deg)) skewX(-2deg) scaleY(1.01);
+  }
+}
+
+/* --- MOTOR DE OLA REACtIVO DE IZQUIERDA A DERECHA EN HOVER DEL CONTENEDOR --- */
+/* Al pasar el mouse por el contenedor, se dispara un barrido/ola de izq a der usando la variable --idx */
+@keyframes wave-animation {
+  0% {
+    transform: rotate(var(--rot, 0deg)) skewX(0deg) scaleY(1);
+  }
+  20% {
+    transform: scaleY(1.45) scaleX(1.3) rotate(calc(var(--rot, 0deg) + 20deg)) skewX(8deg) translateY(-3px);
+    fill: #39FF14;
+    filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.5));
+  }
+  40%, 100% {
+    transform: rotate(var(--rot, 0deg)) skewX(0deg) scaleY(1);
+    fill: var(--original-color);
+  }
+}
+
+.grass-blade {
+  transform-origin: bottom center;
+  animation: wind-sway var(--duration, 3.5s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), fill 0.4s ease;
+  will-change: transform, fill;
+}
+
+/* Capturamos el color original dinámicamente */
+.grass-container .grass-blade {
+  --original-color: currentColor; /* fallback */
+}
+
+/* Cuando se hace hover sobre el contenedor general de césped, cada brizna se activa secuencialmente de izquierda a derecha en forma de ola */
+.grass-container:hover .grass-blade {
+  /* La ola se propaga de izquierda a derecha aplicando un retraso basado en la posición física de la hoja (--idx) */
+  animation: wave-animation 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation-delay: calc(var(--idx) * 0.007s); /* Desfase ultra milimétrico para ola perfecta y continua */
+}
+
+/* Adicionalmente, permitimos que al tocar briznas individuales con hover directo se estiren al máximo de forma persistente */
+.grass-blade:hover {
+  transform: scaleY(1.5) scaleX(1.4) rotate(calc(var(--rot, 0deg) + 22deg)) skewX(10deg) translateY(-4px) !important;
+  fill: #39FF14 !important;
+  filter: drop-shadow(0 0 6px rgba(57, 255, 20, 0.7));
+  cursor: pointer;
+  z-index: 50;
+  animation: none !important; /* Pausamos la animación secuencial para el hover directo */
+}
+
+

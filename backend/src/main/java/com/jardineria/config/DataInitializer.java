@@ -4,27 +4,41 @@ import com.jardineria.model.Category;
 import com.jardineria.model.User;
 import com.jardineria.repository.CategoryRepository;
 import com.jardineria.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class DataInitializer implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Value("${jardineria.admin.default-password:#{null}}")
+    private String defaultPassword;
+
     @Override
     public void run(String... args) {
         if (userRepository.count() > 0) return;
 
+        String passwordToUse = defaultPassword;
+        if (passwordToUse == null || passwordToUse.trim().isEmpty()) {
+            passwordToUse = UUID.randomUUID().toString().substring(0, 12);
+            log.warn("⚠️ [SEGURIDAD] Admin creado con contraseña temporal generada dinámicamente: {}", passwordToUse);
+        } else {
+            log.info("ℹ️ Admin creado usando la contraseña configurada en variables de entorno.");
+        }
+
         userRepository.save(User.builder()
             .username("admin")
             .email("admin@jardineria.com")
-            .password(passwordEncoder.encode("admin123"))
+            .password(passwordEncoder.encode(passwordToUse))
             .role("ROLE_ADMIN")
             .build());
 

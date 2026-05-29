@@ -93,7 +93,7 @@ class ContactControllerTest {
                 .createdAt(LocalDateTime.now()).build()
         ));
 
-        mockMvc.perform(get("/api/contact/admin"))
+        mockMvc.perform(get("/api/admin/contact"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].name").value("Juan"))
             .andExpect(jsonPath("$[0].read").value(false));
@@ -106,7 +106,7 @@ class ContactControllerTest {
         when(repository.findById(1L)).thenReturn(Optional.of(msg));
         when(repository.save(any(ContactMessage.class))).thenReturn(msg);
 
-        mockMvc.perform(put("/api/contact/admin/1/read"))
+        mockMvc.perform(put("/api/admin/contact/1/read"))
             .andExpect(status().isOk());
     }
 
@@ -114,7 +114,7 @@ class ContactControllerTest {
     void shouldReturn404ForMissingMessage() throws Exception {
         when(repository.findById(99L)).thenReturn(Optional.empty());
 
-        mockMvc.perform(put("/api/contact/admin/99/read"))
+        mockMvc.perform(put("/api/admin/contact/99/read"))
             .andExpect(status().isNotFound());
     }
 }

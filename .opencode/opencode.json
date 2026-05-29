@@ -45,6 +45,63 @@
           "marca"
         ]
       }
+    },
+    {
+      "name": "accessibility",
+      "description": "Audit and improve web accessibility following WCAG 2.2 guidelines. Use when asked to 'improve accessibility', 'a11y audit', 'WCAG compliance', 'screen reader support', 'keyboard navigation', or 'make accessible'.",
+      "match": {
+        "patterns": [
+          "accessibility",
+          "a11y",
+          "WCAG",
+          "screen reader",
+          "keyboard navigation",
+          "contrast",
+          "aria-",
+          "alt text",
+          "visually-hidden",
+          "skip link",
+          "wcag"
+        ]
+      }
+    },
+    {
+      "name": "seo",
+      "description": "Optimize for search engine visibility and ranking. Use when asked to 'improve SEO', 'optimize for search', 'fix meta tags', 'add structured data', 'sitemap optimization', or 'search engine optimization'.",
+      "match": {
+        "patterns": [
+          "seo",
+          "sitemap",
+          "robots.txt",
+          "meta tags",
+          "structured data",
+          "json-ld",
+          "canonical",
+          "google search",
+          "lighthouse",
+          "hreflang",
+          "meta description"
+        ]
+      }
+    },
+    {
+      "name": "frontend-design",
+      "description": "Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, HTML/CSS layouts, or when styling/beautifying any web UI.",
+      "match": {
+        "patterns": [
+          "frontend",
+          "design",
+          "aesthetics",
+          "visuals",
+          "layout",
+          "typography",
+          "components",
+          "inter",
+          "color scheme",
+          "user interface",
+          "beautify"
+        ]
+      }
     }
   ]
 }

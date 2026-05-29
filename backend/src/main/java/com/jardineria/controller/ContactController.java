@@ -12,25 +12,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/contact")
 @RequiredArgsConstructor
 public class ContactController {
 
     private final ContactService contactService;
     private final ContactMessageRepository repository;
 
-    @PostMapping
+    @PostMapping("/api/contact")
     public ResponseEntity<Void> send(@Valid @RequestBody ContactDTO dto) {
         contactService.processContact(dto);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/api/admin/contact")
     public List<ContactMessage> getAll() {
         return repository.findAllByOrderByCreatedAtDesc();
     }
 
-    @PutMapping("/admin/{id}/read")
+    @PutMapping("/api/admin/contact/{id}/read")
     public ResponseEntity<Void> markAsRead(@PathVariable Long id) {
         return repository.findById(id)
             .map(msg -> {

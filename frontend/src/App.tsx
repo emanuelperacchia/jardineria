@@ -10,6 +10,7 @@ import BlogPost from './pages/BlogPost'
 import Contact from './pages/Contact'
 import AdminLogin from './admin/AdminLogin'
 import AdminDashboard from './admin/AdminDashboard'
+import PrivateRoute from './components/PrivateRoute'
 
 export default function App() {
   return (
@@ -26,7 +27,11 @@ export default function App() {
           <Route path="/contacto" element={<Contact />} />
         </Route>
         <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin/*" element={<AdminDashboard />} />
+        <Route path="/admin/*" element={
+          <PrivateRoute requiredRole="ROLE_ADMIN">
+            <AdminDashboard />
+          </PrivateRoute>
+        } />
       </Routes>
     </AuthProvider>
     </HelmetProvider>
